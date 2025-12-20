@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0B2A4E"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <TextView
+            android:text="Register"
+            android:textColor="#FFD700"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="28dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/etId"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Admin / Teacher ID (A001 / T001)"
+            android:background="@drawable/input_bg"
+            android:textColor="#FFF"
+            android:textColorHint="#AAA"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="14dp" />
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Full Name"
+            android:background="@drawable/input_bg"
+            android:textColor="#FFF"
+            android:textColorHint="#AAA"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="14dp"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tvStudentNotAllowed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Students cannot register here."
+            android:textColor="#FF6B6B"
+            android:visibility="gone"
+            android:layout_marginBottom="10dp" />
+
+        <EditText
+            android:id="@+id/etEmail"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Email (@marwadiuniversity.ac.in)"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/input_bg"
+            android:textColor="#FFF"
+            android:textColorHint="#AAA"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="14dp" />
+
+        <EditText
+            android:id="@+id/etPhone"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="Phone Number"
+            android:inputType="phone"
+            android:background="@drawable/input_bg"
+            android:textColor="#FFF"
+            android:textColorHint="#AAA"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="14dp" />
+
+        <EditText
+            android:id="@+id/etDob"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="DOB (ddmmyyyy)"
+            android:inputType="number"
+            android:background="@drawable/input_bg"
+            android:textColor="#FFF"
+            android:textColorHint="#AAA"
+            android:paddingHorizontal="16dp"
+            android:layout_marginBottom="22dp" />
+
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:text="REGISTER"
+            android:textStyle="bold"
+            android:textColor="#0B2A4E"
+            android:background="@drawable/btn_gold"
+            android:enabled="false"
+            android:alpha="0.5" />
+
+    </LinearLayout>
+</ScrollView>

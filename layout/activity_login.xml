@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="#001B44">
+
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@mipmap/ic_logo_foreground"
+        android:contentDescription="@string/app_name" />
+
+    <EditText
+        android:id="@+id/etUsername"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/logoImage"
+        android:layout_marginTop="28dp"
+        android:hint="ID (A001 / T001 / S001)"
+        android:background="@null"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="#CCCCCC"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/etUsername"
+        android:background="#FFFFFF" />
+
+    <EditText
+        android:id="@+id/etPassword"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_below="@id/etUsername"
+        android:layout_marginTop="16dp"
+        android:hint="Password (DOB)"
+        android:inputType="numberPassword"
+        android:background="@null"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textColorHint="#CCCCCC" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/etPassword"
+        android:background="#FFFFFF" />
+
+    <Button
+        android:id="@+id/tvForgot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forgot password?"
+        android:background="@drawable/white_button"
+        android:textColor="#0B2A4E"
+        android:layout_below="@id/etPassword"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/tvForgot"
+        android:layout_marginTop="20dp"
+        android:text="LOGIN"
+        android:textStyle="bold"
+        android:background="@drawable/white_button"
+        android:textColor="#0B2A4E" />
+
+    <Button
+        android:id="@+id/tvRegister"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="REGISTER"
+        android:background="@drawable/white_button"
+        android:textColor="#0B2A4E"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="40dp" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="gone"/>
+
+</RelativeLayout>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_bg_neo"
+    android:alpha="0"
+    android:gravity="center">
+
+    <!-- Shield Container -->
+    <FrameLayout
+        android:id="@+id/shieldContainer"
+        android:layout_width="260dp"
+        android:layout_height="330dp"
+        android:layout_centerInParent="true">
+
+        <!-- Bigger glow -->
+        <ImageView
+            android:id="@+id/orbitGlow"
+            android:layout_width="340dp"
+            android:layout_height="340dp"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:src="@drawable/shield_glow" />
+
+        <!-- BIG shield -->
+        <ImageView
+            android:id="@+id/shieldBg"
+            android:layout_width="260dp"
+            android:layout_height="330dp"
+            android:layout_gravity="center"
+            android:alpha="0"
+            android:src="@drawable/ic_shield_gold" />
+
+        <!-- Shine Swipe Strip (FIXED) -->
+        <View
+            android:id="@+id/shineView"
+            android:layout_width="50dp"
+            android:layout_height="360dp"
+            android:background="#55FFFFFF"
+            android:rotation="40"
+            android:alpha="0"
+            android:layout_gravity="center" />
+
+        <!-- MU text -->
+        <TextView
+            android:id="@+id/muText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:text="MU"
+            android:textColor="#F4C04A"
+            android:textSize="54sp"
+            android:textStyle="bold"
+            android:alpha="0" />
+
+        <!-- MARWADI UNIVERSITY -->
+        <TextView
+            android:id="@+id/marwadiText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="170dp"
+            android:text="MARWADI UNIVERSITY"
+            android:textColor="#F4C04A"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:alpha="0" />
+
+    </FrameLayout>
+
+    <!-- MU CONNECT below shield -->
+    <TextView
+        android:id="@+id/logoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MU CONNECT"
+        android:textColor="#F4C04A"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        android:layout_below="@id/shieldContainer"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="26dp"
+        android:alpha="0"/>
+
+</RelativeLayout>
