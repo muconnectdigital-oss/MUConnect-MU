@@ -1,0 +1,22 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="220dp"
+    android:height="220dp"
+    android:viewportWidth="220"
+    android:viewportHeight="220">
+
+    <!-- U Base -->
+    <path
+        android:name="uPath"
+        android:pathData="M40,60 L40,135 A70,70 0 0,0 110,185 A70,70 0 0,0 180,135 L180,60"
+        android:strokeColor="#FFD700"
+        android:strokeWidth="16"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:fillColor="@android:color/transparent"/>
+
+    <!-- Top Circle (Logo Dot) -->
+    <path
+        android:name="dotPath"
+        android:pathData="M110,30 A15,15 0 1,1 109.9,30"
+        android:fillColor="#FFD700"/>
+</vector>

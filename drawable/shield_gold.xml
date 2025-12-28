@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Outer Gold Border -->
+    <item>
+        <shape android:shape="oval">
+            <size android:width="250dp" android:height="250dp"/>
+            <stroke android:width="6dp" android:color="#D4A73A"/>
+            <solid android:color="@android:color/transparent"/>
+        </shape>
+    </item>
+
+    <!-- Inner Blue Gradient -->
+    <item android:top="8dp" android:bottom="8dp" android:left="8dp" android:right="8dp">
+        <shape android:shape="oval">
+            <gradient
+                android:startColor="#003A78"
+                android:endColor="#001526"
+                android:angle="90"/>
+            <stroke android:width="2dp" android:color="#80FFFFFF"/>
+        </shape>
+    </item>
+
+</layer-list>
