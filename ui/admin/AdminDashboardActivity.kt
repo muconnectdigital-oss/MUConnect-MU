@@ -8,7 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.navigation.NavigationView
 import com.rsservice.muconnect.R
-
+import com.rsservice.muconnect.ui.common.GroupsActivity
 class AdminDashboardActivity : AppCompatActivity() {
 
     private lateinit var drawerLayout: DrawerLayout
@@ -68,6 +68,16 @@ class AdminDashboardActivity : AppCompatActivity() {
                 R.id.menu_create_class ->{
                     startActivity(
                         Intent(this, CreateClassActivity::class.java)
+                    )
+                }
+                R.id.menu_create_groups ->{
+                    startActivity(
+                        Intent(this, CreateGroupActivity::class.java)
+                    )
+                }
+                R.id.menu_groups ->{
+                    startActivity(
+                        Intent(this, GroupsActivity::class.java)
                     )
                 }
             }

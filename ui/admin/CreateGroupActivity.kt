@@ -2,6 +2,7 @@ package com.rsservice.muconnect.ui.admin
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,36 +17,87 @@ import com.rsservice.muconnect.ui.common.GroupChatActivity
 class CreateGroupActivity : AppCompatActivity() {
 
     private val firestore = FirebaseFirestore.getInstance()
-    private val selectedMembers = mutableSetOf<String>()
+
     private lateinit var adapter: StudentsAdapter
+    private val selectedMembers = mutableSetOf<String>()
+
+    // UI
+    private lateinit var tvSelectedCount: TextView
+    private lateinit var rbStudents: RadioButton
+    private lateinit var rbTeachers: RadioButton
+    private lateinit var spinnerClass: Spinner
+    private lateinit var rvUsers: RecyclerView
+
+    private val classList = mutableListOf("All Classes")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_create_group)
 
+        // ---------- UI refs ----------
         val etGroupName = findViewById<EditText>(R.id.etGroupName)
-        val rvUsers = findViewById<RecyclerView>(R.id.rvUsers)
+        val etDescription = findViewById<EditText>(R.id.etDescription)
         val btnCreate = findViewById<Button>(R.id.btnCreateGroup)
 
-        rvUsers.layoutManager = LinearLayoutManager(this)
+        tvSelectedCount = findViewById(R.id.tvSelectedCount)
+        rbStudents = findViewById(R.id.rbStudents)
+        rbTeachers = findViewById(R.id.rbTeachers)
+        spinnerClass = findViewById(R.id.spinnerClass)
+        rvUsers = findViewById(R.id.rvUsers)
 
+        // ---------- RecyclerView ----------
+        rvUsers.layoutManager = LinearLayoutManager(this)
         adapter = StudentsAdapter(mutableListOf()) { user, isChecked ->
+            if (isChecked) selectedMembers.add(user.id)
+            else selectedMembers.remove(user.id)
+
+            updateSelectedCount()
+        }
+        rvUsers.adapter = adapter
+
+        // ---------- Load class list ----------
+        loadClasses()
+
+        // ---------- Spinner ----------
+        spinnerClass.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (rbStudents.isChecked) {
+                        loadStudents(classList[position])
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
+            }
+
+        // ---------- Tabs ----------
+        rbStudents.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                selectedMembers.add(user.id)
-            } else {
-                selectedMembers.remove(user.id)
+                spinnerClass.visibility = View.VISIBLE
+                loadStudents(spinnerClass.selectedItem.toString())
             }
         }
 
-        rvUsers.adapter = adapter
+        rbTeachers.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                spinnerClass.visibility = View.GONE
+                loadTeachers()
+            }
+        }
 
-        checkPermission()
-        loadUsers()
+        rbStudents.isChecked = true
 
+        // ---------- Create Group ----------
         btnCreate.setOnClickListener {
-            val groupName = etGroupName.text.toString().trim()
+            val name = etGroupName.text.toString().trim()
+            val desc = etDescription.text.toString().trim()
 
-            if (groupName.isEmpty()) {
+            if (name.isEmpty()) {
                 etGroupName.error = "Group name required"
                 return@setOnClickListener
             }
@@ -55,62 +107,94 @@ class CreateGroupActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            createGroup(groupName)
+            createGroup(name, desc)
         }
     }
 
-    // ---------------- ROLE CHECK ----------------
-    private fun checkPermission() {
-        val currentUserRole = intent.getStringExtra("role") ?: ""
+    // ---------------- LOAD CLASSES ----------------
+    private fun loadClasses() {
+        firestore.collection("classes")
+            .get()
+            .addOnSuccessListener { result ->
+                result.documents.forEach { classList.add(it.id) }
 
-        if (currentUserRole != "teacher" && currentUserRole != "admin") {
-            Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()
-            finish()
-        }
+                spinnerClass.adapter = ArrayAdapter(
+                    this,
+                    android.R.layout.simple_spinner_dropdown_item,
+                    classList
+                )
+            }
     }
 
-    // ---------------- LOAD USERS ----------------
-    private fun loadUsers() {
-        firestore.collection("users")
+    // ---------------- LOAD STUDENTS ----------------
+    private fun loadStudents(className: String) {
+        firestore.collection("students")
             .get()
             .addOnSuccessListener { result ->
                 val users = result.documents.mapNotNull { doc ->
-                    doc.toObject(User::class.java)?.apply {
-                        id = doc.id
-                    }
+                    val fullName = doc.getString("fullName") ?: return@mapNotNull null
+                    val grNo = doc.getString("grNo") ?: ""
+                    val cls = doc.getString("class") ?: ""
+                    val batch = doc.getString("batch") ?: ""
+
+                    if (className != "All Classes" && cls != className) return@mapNotNull null
+
+                    User(
+                        id = doc.id,
+                        name = fullName,
+                        role = "student",
+                        studentClass = cls,
+                        batch = batch,
+                        extra = "GR: $grNo • Class: $cls • Batch: $batch"
+                    )
+                }
+                adapter.update(users)
+            }
+    }
+
+    // ---------------- LOAD TEACHERS ----------------
+    private fun loadTeachers() {
+        firestore.collection("users")
+            .whereEqualTo("role", "teacher")
+            .get()
+            .addOnSuccessListener { result ->
+                val users = result.documents.mapNotNull { doc ->
+                    User(
+                        id = doc.id,
+                        name = doc.getString("name") ?: "",
+                        role = "teacher"
+                    )
                 }
                 adapter.update(users)
             }
     }
 
     // ---------------- CREATE GROUP ----------------
-    private fun createGroup(groupName: String) {
-
-        val currentUserId = intent.getStringExtra("userId") ?: return
-
-        selectedMembers.add(currentUserId)
-
-        val groupData = hashMapOf(
-            "name" to groupName,
-            "createdBy" to currentUserId,
+    private fun createGroup(name: String, description: String) {
+        val data = hashMapOf(
+            "name" to name,
+            "description" to description,
             "members" to selectedMembers.toList(),
             "createdAt" to FieldValue.serverTimestamp(),
             "lastMessage" to "",
-            "lastMessageTime" to null,
+            "lastMessageTime" to FieldValue.serverTimestamp(),
             "mutedBy" to emptyList<String>()
         )
 
         firestore.collection("groups")
-            .add(groupData)
-            .addOnSuccessListener { doc ->
-                openGroupChat(doc.id)
-            }
+            .add(data)
+            .addOnSuccessListener { openGroupChat(it.id) }
             .addOnFailureListener {
                 Toast.makeText(this, "Failed to create group", Toast.LENGTH_SHORT).show()
             }
     }
 
-    // ---------------- OPEN CHAT ----------------
+    // ---------------- HELPERS ----------------
+    private fun updateSelectedCount() {
+        tvSelectedCount.text =
+            "Select Members (${selectedMembers.size} selected)"
+    }
+
     private fun openGroupChat(groupId: String) {
         val intent = Intent(this, GroupChatActivity::class.java)
         intent.putExtra("groupId", groupId)
