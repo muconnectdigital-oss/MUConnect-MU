@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="#FFFFFF"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!-- HEADER -->
+    <include layout="@layout/layout_chat_header" />
+    <!-- HEADER -->
+    <LinearLayout
+        android:padding="14dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tvGroupName"
+            android:text="5EC1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/btnMembers"
+            android:text="Members"
+            android:padding="6dp"
+            android:background="@drawable/bg_members"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <!-- CHAT LIST -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+    <ProgressBar
+        android:id="@+id/progressUpload"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"/>
+
+    <!-- INPUT BAR -->
+    <include layout="@layout/layout_chat_input"/>
+    <!-- INPUT BAR -->
+    <LinearLayout
+        android:padding="8dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/btnAttach"
+            android:src="@drawable/ic_attach"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+
+        <EditText
+            android:id="@+id/etMessage"
+            android:hint="Type a message..."
+            android:background="@drawable/bg_input"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"/>
+
+        <ImageButton
+            android:id="@+id/btnSend"
+            android:src="@drawable/ic_send"
+            android:background="@null"
+            android:layout_width="40dp"
+            android:layout_height="40dp"/>
+    </LinearLayout>
+
+</LinearLayout>
